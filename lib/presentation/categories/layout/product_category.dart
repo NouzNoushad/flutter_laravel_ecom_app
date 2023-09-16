@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../data/bloc/product_category_bloc/product_category_bloc.dart';
 import '../../../data/models/products_response.dart';
 import '../../../utils/colors.dart';
+import '../../../widgets/sliver_app_bar.dart';
 
 class ProductCategory extends StatelessWidget {
   final List<Result> products;
@@ -24,12 +25,8 @@ class ProductCategory extends StatelessWidget {
           if (state is ProductCategoryLoadedState) {
             return CustomScrollView(
               slivers: [
-                SliverAppBar(
-                  pinned: true,
-                  backgroundColor: ColorPicker.primaryColorLight2,
-                  title: Text(
-                    category,
-                  ),
+                CustomSliverAppBar(
+                  title: category,
                 ),
                 SliverPadding(
                   padding:
