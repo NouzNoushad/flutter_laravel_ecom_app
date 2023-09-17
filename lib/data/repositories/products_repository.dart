@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 class ProductsRepository {
   BaseClient baseClient = BaseClient();
+  
   Future<List<Result>> getProducts() async {
     String uri = '$baseUrl/${EndPoints.products}';
     String response = await baseClient.getRequest(uri);

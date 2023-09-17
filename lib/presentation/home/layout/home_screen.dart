@@ -5,7 +5,9 @@ import 'package:ecom_app_bloc/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:go_router/go_router.dart';
 import '../../../data/bloc/products_bloc/products_bloc.dart';
+import '../../../routes/route_constant.dart';
 import '../modules/all_products.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -50,7 +52,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   actions: [
                     IconButton(
-                        onPressed: () {}, icon: const Icon(Icons.shopping_cart))
+                        onPressed: () {
+                          context.push(cartRoute);
+                        },
+                        icon: const Icon(Icons.shopping_cart))
                   ],
                 ),
                 SliverPadding(

@@ -1,20 +1,20 @@
 import 'dart:convert';
 
-ProductsResponseModel productsResponseModelFromJson(String str) =>
-    ProductsResponseModel.fromJson(json.decode(str));
+CartResponseModel cartResponseModelFromJson(String str) =>
+    CartResponseModel.fromJson(json.decode(str));
 
-String productsResponseModelToJson(ProductsResponseModel data) =>
+String cartResponseModelToJson(CartResponseModel data) =>
     json.encode(data.toJson());
 
-class ProductsResponseModel {
+class CartResponseModel {
   List<Result> result;
 
-  ProductsResponseModel({
+  CartResponseModel({
     required this.result,
   });
 
-  factory ProductsResponseModel.fromJson(Map<String, dynamic> json) =>
-      ProductsResponseModel(
+  factory CartResponseModel.fromJson(Map<String, dynamic> json) =>
+      CartResponseModel(
         result:
             List<Result>.from(json["result"].map((x) => Result.fromJson(x))),
       );
@@ -27,7 +27,6 @@ class ProductsResponseModel {
 class Result {
   int id;
   String title;
-  String description;
   int price;
   double discountPercentage;
   double rating;
@@ -41,7 +40,6 @@ class Result {
   Result({
     required this.id,
     required this.title,
-    required this.description,
     required this.price,
     required this.discountPercentage,
     required this.rating,
@@ -56,7 +54,6 @@ class Result {
   factory Result.fromJson(Map<String, dynamic> json) => Result(
         id: json["id"],
         title: json["title"],
-        description: json["description"],
         price: json["price"],
         discountPercentage: json["discountPercentage"]?.toDouble(),
         rating: json["rating"]?.toDouble(),
@@ -71,7 +68,6 @@ class Result {
   Map<String, dynamic> toJson() => {
         "id": id,
         "title": title,
-        "description": description,
         "price": price,
         "discountPercentage": discountPercentage,
         "rating": rating,

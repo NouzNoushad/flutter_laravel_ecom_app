@@ -37,7 +37,7 @@ class BaseClient {
   }
 
   Future<String> postRequest(String uri,
-      [Map<String, String>? queryParams]) async {
+      [Object? queryParams]) async {
     try {
       Uri url = Uri.parse(uri);
       final response = await baseClient

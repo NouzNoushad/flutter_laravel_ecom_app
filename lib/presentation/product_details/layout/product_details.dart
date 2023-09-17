@@ -1,8 +1,12 @@
+import 'package:ecom_app_bloc/data/bloc/cart_bloc/cart_bloc.dart';
+import 'package:ecom_app_bloc/data/models/cart_add_request.dart';
 import 'package:ecom_app_bloc/data/models/products_response.dart';
 import 'package:ecom_app_bloc/utils/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
+import '../../../widgets/ratings.dart';
 import '../../../widgets/sliver_app_bar.dart';
 
 class ProductDetails extends StatelessWidget {
@@ -13,6 +17,40 @@ class ProductDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorPicker.whiteColor,
+      floatingActionButton: BlocListener<CartBloc, CartState>(
+        listener: (context, state) {
+          if (state is CartAddedState) {
+            Fluttertoast.showToast(msg: state.result);
+          }
+        },
+        child: BlocBuilder<CartBloc, CartState>(
+          builder: (context, state) {
+            return ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: ColorPicker.primaryColor4,
+              ),
+              onPressed: () {
+                CartAddRequestModel cartAddRequestModel = CartAddRequestModel(
+                    title: product.title,
+                    price: product.price,
+                    discountPercentage: product.discountPercentage,
+                    rating: product.rating,
+                    stock: product.stock,
+                    brand: product.brand,
+                    category: product.category,
+                    thumbnail: product.thumbnail);
+                context
+                    .read<CartBloc>()
+                    .add(AddToCartEvent(cartAddRequestModel));
+              },
+              child: const Text(
+                'Add To Cart',
+                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+              ),
+            );
+          },
+        ),
+      ),
       body: CustomScrollView(
         slivers: [
           CustomSliverAppBar(
@@ -57,22 +95,10 @@ class ProductDetails extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                              RatingBar.builder(
+                              CustomRating(
                                 initialRating: product.rating,
-                                minRating: 1,
-                                direction: Axis.horizontal,
-                                allowHalfRating: true,
-                                itemCount: 5,
                                 itemSize: 20,
-                                itemPadding:
-                                    const EdgeInsets.symmetric(horizontal: 2),
-                                itemBuilder: (context, _) => const Icon(
-                                  Icons.star,
-                                  color: Colors.amber,
-                                ),
-                                onRatingUpdate: (rating) {
-                                  print(rating);
-                                },
+                                padding: 2,
                               ),
                               const SizedBox(width: 4),
                               Text(
@@ -94,7 +120,7 @@ class ProductDetails extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        'Discount: ${product.discountPercentage}%',
+                        'Discount: ${product.discountPercentage.toStringAsFixed(2)}%',
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
